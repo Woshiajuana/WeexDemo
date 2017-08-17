@@ -1,75 +1,53 @@
 <template>
-    <div class="stories-view" append="tree">
-        <text class="button" @click="jump">Jump</text>
-    </div>
+    <list class="list" @loadmore="fetch" loadmoreoffset="10">
+        <cell class="cell" v-for="num in lists">
+            <div class="panel">
+                <text class="text">{{num}}</text>
+            </div>
+        </cell>
+    </list>
 </template>
 
 <script>
+    const modal = weex.requireModule('modal')
+    const LOADMORE_COUNT = 4
     export default {
-        props: {
-            type: {
-                type: String,
-                required: true,
-                default: 'top'
-            }
-        },
         data () {
             return {
-                loading: true
+                lists: [1, 2, 3, 4, 5]
             }
         },
-
-        computed: {
-            stories () {
-                return this.$store.getters.activeItems
-            }
-        },
-
         methods: {
-            fetchListData () {
-                this.loading = true
-                this.$store.dispatch('FETCH_LIST_DATA', {
-                    type: this.type
-                }).then(() => {
-                    this.loading = false
-                })
-            },
-            loadMoreStories () {
-                this.loading = true
-                this.$store.dispatch('LOAD_MORE_ITEMS').then(() => {
-                    this.loading = false
-                })
+            fetch (event) {
+                modal.toast({ message: 'loadmore', duration: 1 })
+                setTimeout(() => {
+                    const length = this.lists.length
+                    for (let i = length; i < length + LOADMORE_COUNT; ++i) {
+                        this.lists.push(i + 1)
+                    }
+                }, 800)
             }
-        },
-
-        created () {
-            this.fetchListData()
         }
     }
 </script>
 
 <style scoped>
-    .stories-view {
-        height: 100%;
-    }
-    .story-cell {
-        margin-bottom: 3px;
-        border-bottom-width: 2px;
-        border-bottom-style: solid;
-        border-bottom-color: #DDDDDD;
-        background-color: #FFFFFF;
-    }
-    .loading {
-        width: 750px;
-        height: 120px;
-        display: flex;
-        align-items: center;
+    .panel {
+        width: 600px;
+        height: 250px;
+        margin-left: 75px;
+        margin-top: 35px;
+        margin-bottom: 35px;
+        flex-direction: column;
         justify-content: center;
+        border-width: 2px;
+        border-style: solid;
+        border-color: rgb(162, 217, 192);
+        background-color: rgba(162, 217, 192, 0.2);
     }
-    .loading-text {
-        margin: auto;
+    .text {
+        font-size: 50px;
         text-align: center;
-        font-size: 40px;
-        color: #BBB;
+        color: #41B883;
     }
 </style>
