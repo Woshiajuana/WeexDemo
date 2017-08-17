@@ -28,14 +28,10 @@
     .nav-bar-item{
         flex: 1;
         width: 120px;
-        height: 100px;
         justify-content: center;
         align-items:center;
     }
-    /*.nav-bar-item-text{*/
-        /*font-size: 28px;*/
-        /*color: #999;*/
-        /*text-align: center;*/
-        /*line-height: 100px;*/
-    /*}*/
+    .nav-bar-item-text{
+        color: #999;
+    }
 </style>
